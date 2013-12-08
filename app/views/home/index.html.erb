@@ -1,0 +1,36 @@
+<!-- app/views/home/index.html.erb -->
+
+<% if logged_in? %>
+
+  <h1>Logged in</h1>
+
+  <p><%= link_to 'Sign out', signout_path %><p>
+<p>Drive List Result</p>
+  <table id="drive" class="display">
+    <thead>
+      <tr>
+	<th>File Name</th>
+	<th>File Size</th>
+	<th>Last modified</th>
+	<th>Last modified by</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @files_result.each do |file| %>
+      <tr>
+	<td><%= file.title %></td>
+	<td><%= file.size %></td>
+	<td><%= file.modifiedDate %></td>
+	<td><%= file.lastModifyingUserName %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+<%= @files_result1  %>
+
+  <% else %>
+
+  <%= link_to 'Sign in', '/signet/google/auth' %>
+
+  <% end %>
