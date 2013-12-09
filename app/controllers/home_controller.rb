@@ -1,6 +1,5 @@
 # app/controllers/home_controller.rb
 
-#require 'open-uri'  # I don't think I need this because I use the Google API to get the file.
 require 'nokogiri'
 
 class HomeController < ApplicationController
@@ -31,11 +30,12 @@ class HomeController < ApplicationController
 
       recent_range = ((Date.today - 30).to_date..Date.today.to_date)
       @files_result.each_with_index do |f, index|
+        if f.mimeType != "application/vnd.google-apps.document"
+          @files_result[index]["size"] = "Not a Doc file"
+          elsif recent_range === f.modifiedDate.to_date
+          
+          url = f.exportLinks["text/html"]
         
-        if recent_range === f.modifiedDate.to_date 
-          url = f.selfLink
-        
-
           file = client.execute(
                                 :uri => url
                                 )
@@ -43,17 +43,18 @@ class HomeController < ApplicationController
           file_text  = file_html.at('body').inner_text
           file_size = file_text.length
           file_size = 0 if file_size.nil?
-
-          @files_result[index]["size"] = file_size
           #Next add it into files_result.
- 
-      else
-        @files_result[index]["size"] = "Not recently modified"
-       end 
-     end
-#      binding.pry
+          @files_result[index]["size"] = file_size
+        
 
-
+        else
+          @files_result[index]["size"] = "Not recently modified"
+        end 
+      end
     end
+#     binding.pry
+
+
   end
+
 end

@@ -5,12 +5,13 @@
   <h1>Logged in</h1>
 
   <p><%= link_to 'Sign out', signout_path %><p>
-<p>Drive List Result</p>
+<h2>Drive List</h2>
+<p> Number of characters is only caluclated for recently modified files</p>
   <table id="drive" class="display">
     <thead>
       <tr>
 	<th>File Name</th>
-	<th>File Size</th>
+	<th>Number of Characters</th>
 	<th>Last modified</th>
 	<th>Last modified by</th>
       </tr>
@@ -27,10 +28,11 @@
     </tbody>
   </table>
 
-<%= @files_result1  %>
+
 
   <% else %>
+<h1> Welcome!</h1>
 
-  <%= link_to 'Sign in', '/signet/google/auth' %>
+  <p> Please <%= link_to 'Sign in', '/signet/google/auth' %> to see a list of your google drive files.</p>
 
   <% end %>
